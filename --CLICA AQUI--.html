@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vamos nos resolver?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none; /* Impede que as estrelas bloqueiem os cliques */
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .text {
+            color: white;
+            font-size: 2em; /* Tamanho menor para telas pequenas */
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            top: -50px;
+            z-index: 1; /* Garante que o texto fique acima das estrelas */
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            z-index: 1; /* Garante que os botões fiquem acima das estrelas */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em; /* Tamanho menor para telas pequenas */
+            cursor: pointer;
+            z-index: 2; /* Garante que os botões sejam clicáveis */
+            opacity: 0.7; /* Opacidade padrão para todos os botões */
+            transition: opacity 0.3s ease; /* Transição suave */
+        }
+
+        button:hover {
+            opacity: 1; /* Aumenta a opacidade ao passar o mouse */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .final-text {
+            color: white;
+            font-size: 2em; /* Tamanho menor para telas pequenas */
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* Garante que o texto final fique acima das estrelas */
+        }
+
+        .secret-text-button {
+            margin-top: 20px; /* Espaço entre o texto final e o botão */
+            position: absolute;
+            top: 60%; /* Posiciona o botão abaixo do texto */
+            z-index: 1;
+        }
+
+        .secret-text {
+            color: white;
+            font-size: 1em; /* Tamanho menor para telas pequenas */
+            text-align: center;
+            max-width: 80%; /* Aumenta a largura para telas pequenas */
+            margin: 20px auto; /* Centraliza o texto */
+            line-height: 1.5; /* Espaçamento entre as linhas */
+        }
+
+        .hint-text {
+            color: white;
+            font-size: 0.9em; /* Tamanho menor para telas pequenas */
+            text-align: center;
+            position: absolute;
+            top: 60%; /* Posiciona o texto abaixo dos botões */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            opacity: 0; /* Inicia invisível */
+            transition: opacity 0.7s ease; /* Animação de fade de 0.7 segundos */
+            max-width: 90%; /* Texto mais compacto */
+        }
+
+        .hint-text.visible {
+            opacity: 1; /* Torna o texto visível */
+        }
+
+        .hint-text.fade-out {
+            opacity: 0; /* Torna o texto invisível */
+        }
+
+        /* Aviso inicial */
+        .volume-warning {
+            color: white;
+            font-size: 1.5em;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0; /* Inicia invisível */
+            transition: opacity 2s ease; /* Animação de fade de 2 segundos */
+            z-index: 2; /* Garante que o aviso fique acima de tudo */
+        }
+
+        .volume-warning.visible {
+            opacity: 1; /* Torna o texto visível */
+        }
+
+        /* Media Queries para telas menores (celulares) */
+        @media (max-width: 768px) {
+            .text {
+                font-size: 1.5em; /* Tamanho menor para celulares */
+                top: -30px; /* Ajuste de posição */
+            }
+
+            button {
+                font-size: 0.9em; /* Tamanho menor para celulares */
+                padding: 8px 16px; /* Botões menores */
+            }
+
+            .final-text {
+                font-size: 1.5em; /* Tamanho menor para celulares */
+            }
+
+            .secret-text {
+                font-size: 0.9em; /* Tamanho menor para celulares */
+                max-width: 90%; /* Largura maior para celulares */
+            }
+
+            .hint-text {
+                font-size: 0.8em; /* Tamanho menor para celulares */
+                max-width: 95%; /* Largura maior para celulares */
+            }
+
+            .volume-warning {
+                font-size: 1.2em; /* Tamanho menor para celulares */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <!-- Aviso inicial -->
+    <div class="volume-warning" id="volumeWarning">Aumente o volume do celular, você entenderá depois.</div>
+
+    <div class="text hidden" id="initialText">Você está brava comigo?</div>
+    <div class="buttons hidden" id="initialButtons">
+        <button id="initialYesButton">Sim</button>
+        <button id="initialNoButton">Não</button>
+    </div>
+    <div class="hint-text hidden" id="hintText"></div>
+    <div class="text hidden" id="text">Vamos nos resolver?</div>
+    <div class="buttons hidden" id="buttons">
+        <button id="yesButton">Sim</button>
+        <button id="noButton">Não</button>
+    </div>
+    <div class="final-text hidden" id="finalText">Eu também te amo, meu bem🌹</div>
+
+    <!-- Botão "Botão secreto" -->
+    <button class="secret-text-button hidden" id="secretTextButton">Botão secreto</button>
+
+    <!-- Texto secreto -->
+    <div class="secret-text hidden" id="secretText">
+        O som quente dos sintetizadores dos anos 80 e as guitarras rasgadas sempre me lembram o nosso romance. Aliás, o ambiente muda quando estou ao seu lado. Parece que Careless Whisper começa a tocar na minha cabeça.<br><br>
+        É difícil expressar o quanto a amo, pois nem eu mesmo saberia explicar o que meu amor por ti representa. Talvez seja sobrenatural? Digo isso porque não amo apenas você, mas também sua alma. Sinto que nossas almas já valsaram juntas em todas as nossas vidas passadas, ao som das músicas mais românticas, e esta é apenas mais uma delas. Quero poder continuar valsando com você em nossas vidas futuras.<br><br>
+        Parece loucura, não é? Mas você sabe como sou apaixonado pela arte de escrever coisas que nem eu mesmo entenderia. Talvez você entenda. Na verdade, você sempre entende minhas cartas, de um jeito ou de outro.<br><br>
+        Sei que isso não vai resolver tudo, então tenha seu tempo para se acalmar e não deixe que essa briga estrague o que temos.<br><br>
+        Eu devo dizer que você enfeitiçou meu corpo e alma, e eu a amo... eu a amo... eu a amo. Anseio que não fiquemos separados a partir de agora.<br><br>
+        NEOQEAV.
+    </div>
+
+    <!-- Elemento de áudio para tocar a música -->
+    <audio id="backgroundMusic" src="data_tone.mp3" loop></audio>
+
+    <script>
+        // Função para criar estrelas
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Função para mover o botão "Não"
+        function moveNoButton() {
+            const noButton = document.getElementById('noButton');
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+
+        // Função para reiniciar a posição do botão "Não"
+        function resetNoButton() {
+            const noButton = document.getElementById('noButton');
+            noButton.style.position = 'static'; /* Volta à posição inicial */
+        }
+
+        // Função para mudar o texto e os botões
+        function changeText() {
+            const text = document.getElementById('text');
+            const buttons = document.getElementById('buttons');
+            const finalText = document.getElementById('finalText');
+
+            text.innerText = "Você me ama?";
+            buttons.classList.remove('hidden');
+            finalText.classList.add('hidden');
+            resetNoButton(); /* Reinicia o botão "Não" */
+        }
+
+        // Função para mostrar o texto final, tocar a música e exibir o botão "Botão secreto"
+        function showFinalText() {
+            const text = document.getElementById('text');
+            const buttons = document.getElementById('buttons');
+            const finalText = document.getElementById('finalText');
+            const secretTextButton = document.getElementById('secretTextButton');
+            const music = document.getElementById('backgroundMusic');
+
+            text.classList.add('hidden'); /* Esconde o texto "Você me ama?" */
+            buttons.classList.add('hidden'); /* Esconde os botões */
+            finalText.classList.remove('hidden'); /* Mostra o texto final */
+            secretTextButton.classList.remove('hidden'); /* Mostra o botão "Botão secreto" */
+
+            // Toca a música
+            music.play();
+        }
+
+        // Função para mostrar o texto secreto e esconder o texto e o botão
+        function showSecretText() {
+            const finalText = document.getElementById('finalText');
+            const secretTextButton = document.getElementById('secretTextButton');
+            const secretText = document.getElementById('secretText');
+
+            finalText.classList.add('hidden'); /* Esconde o texto "Eu também te amo, meu bem🌹" */
+            secretTextButton.classList.add('hidden'); /* Esconde o botão "Botão secreto" */
+            secretText.classList.remove('hidden'); /* Mostra o texto secreto */
+        }
+
+        // Função para avançar para o Estágio 1
+        function goToStage1() {
+            const initialText = document.getElementById('initialText');
+            const initialButtons = document.getElementById('initialButtons');
+            const hintText = document.getElementById('hintText');
+            const text = document.getElementById('text');
+            const buttons = document.getElementById('buttons');
+
+            initialText.classList.add('hidden');
+            initialButtons.classList.add('hidden');
+            hintText.classList.add('hidden');
+            text.classList.remove('hidden');
+            buttons.classList.remove('hidden');
+        }
+
+        // Função para exibir o texto "Af" e "Tá bom" como pulsos
+        function showAfTaBom() {
+            const hintText = document.getElementById('hintText');
+
+            // Exibe "Af" com fade-in de 0.7 segundos
+            hintText.innerText = "Af";
+            hintText.classList.remove('hidden');
+            setTimeout(() => hintText.classList.add('visible'), 10); // Fade-in de 0.7 segundos
+
+            // Esconde "Af" com fade-out de 0.7 segundos
+            setTimeout(() => {
+                hintText.classList.remove('visible'); // Fade-out de 0.7 segundos
+                setTimeout(() => {
+                    // Exibe "Tá bom" com fade-in de 0.7 segundos
+                    hintText.innerText = "Tá bom";
+                    hintText.classList.add('visible'); // Fade-in de 0.7 segundos
+
+                    // Esconde "Tá bom" com fade-out de 0.7 segundos
+                    setTimeout(() => {
+                        hintText.classList.remove('visible'); // Fade-out de 0.7 segundos
+                        setTimeout(goToStage1, 700); // Avança para o Estágio 1 após o fade-out
+                    }, 700); // Tempo para o fade-out de "Tá bom"
+                }, 700); // Tempo entre "Af" e "Tá bom"
+            }, 700); // Tempo para o fade-out de "Af"
+        }
+
+        // Função para mudar o texto do botão "Sim" no estágio inicial
+        function changeInitialYesButtonText() {
+            const initialYesButton = document.getElementById('initialYesButton');
+            const hintText = document.getElementById('hintText');
+            let clickCount = 0;
+
+            initialYesButton.addEventListener('click', function() {
+                if (clickCount === 0) {
+                    initialYesButton.innerText = "Certeza absoluta";
+                    hintText.innerText = "Ouvi dizer que o botão do lado é melhor, ele dá até chocolate amargo pra quem clica. Tem certeza que não quer clicar?";
+                    hintText.classList.remove('hidden');
+                    setTimeout(() => hintText.classList.add('visible'), 10); // Inicia a animação de fade
+                    clickCount++;
+                } else if (clickCount === 1) {
+                    hintText.classList.remove('visible'); // Esconde o texto anterior
+                    setTimeout(() => {
+                        hintText.classList.add('hidden'); // Remove o texto anterior
+                        showAfTaBom(); // Exibe "Af" e "Tá bom" como pulsos
+                    }, 700); // Espera o fade-out do texto anterior
+                    clickCount++;
+                }
+            });
+        }
+
+        // Função para exibir o aviso inicial com fade-in e fade-out
+        function showVolumeWarning() {
+            const volumeWarning = document.getElementById('volumeWarning');
+
+            // Fade-in de 2 segundos
+            setTimeout(() => {
+                volumeWarning.style.opacity = 1; // Torna o texto visível
+            }, 10); // Inicia o fade-in
+
+            // Mantém o texto visível por 2 segundos
+            setTimeout(() => {
+                // Fade-out de 2 segundos
+                volumeWarning.style.opacity = 0; // Torna o texto invisível
+                setTimeout(() => {
+                    volumeWarning.classList.add('hidden'); // Remove o aviso
+                    startContent(); // Inicia o conteúdo principal
+                }, 2000); // Tempo para o fade-out
+            }, 4000); // 2 segundos de fade-in + 2 segundos de exibição
+        }
+
+        // Função para iniciar o conteúdo principal
+        function startContent() {
+            const initialText = document.getElementById('initialText');
+            const initialButtons = document.getElementById('initialButtons');
+            initialText.classList.remove('hidden');
+            initialButtons.classList.remove('hidden');
+        }
+
+        // Event listeners
+        document.getElementById('noButton').addEventListener('click', moveNoButton);
+        document.getElementById('yesButton').addEventListener('click', function() {
+            const text = document.getElementById('text').innerText;
+            if (text === "Vamos nos resolver?") {
+                changeText();
+            } else if (text === "Você me ama?") {
+                showFinalText();
+            }
+        });
+
+        // Event listener para o botão "Botão secreto"
+        document.getElementById('secretTextButton').addEventListener('click', showSecretText);
+
+        // Event listener para o botão "Não" no estágio inicial
+        document.getElementById('initialNoButton').addEventListener('click', goToStage1);
+
+        // Inicialização
+        createStars();
+
+        // Mostra o aviso inicial ao carregar a página
+        showVolumeWarning();
+
+        // Configura o comportamento do botão "Sim" no estágio inicial
+        changeInitialYesButtonText();
+    </script>
+</body>
+</html>
