@@ -2,395 +2,928 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vamos nos resolver?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Lara, o Amor da Minha Vida</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            background-color: black;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        body {
+            background: #011C26;
+            background-image: 
+                radial-gradient(circle at 20% 30%, #A6055D40 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, #F20FA340 0%, transparent 40%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23F20FA3" opacity="0.1" d="M50,30 C60,20 75,25 75,40 C75,55 50,70 50,70 C50,70 25,55 25,40 C25,25 40,20 50,30 Z"></path></svg>');
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #F288C2;
+        }
+        
+        .container {
+            display: flex;
             flex-direction: column;
-            overflow: hidden;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        /* Cartão com a nova paleta de cores */
+        .love-card {
+            background: linear-gradient(145deg, #590232, #011C26);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(242, 15, 163, 0.3), 
+                        0 0 20px rgba(166, 5, 93, 0.3),
+                        inset 0 0 15px rgba(242, 136, 194, 0.2);
+            text-align: center;
             position: relative;
+            overflow: hidden;
+            border: 5px solid #F20FA3;
+            animation: pulse 2s infinite;
+        }
+        
+        .love-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><path fill="%23F288C2" opacity="0.1" d="M15,10 C17,8 21,9 21,12 C21,15 15,18 15,18 C15,18 9,15 9,12 C9,9 13,8 15,10 Z"></path></svg>');
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+        
+        .love-card h1 {
+            color: #F20FA3;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #F20FA3, 2px 2px 3px #000;
+            margin-bottom: 15px;
+        }
+        
+        .love-card p {
+            color: #F288C2;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        .hearts {
+            font-size: 2rem;
+            color: #F20FA3;
+            letter-spacing: 10px;
+            margin: 15px 0;
+            text-shadow: 0 0 5px #F20FA3;
+        }
+        
+        /* Área da Poesia com a nova paleta de cores */
+        .poetry {
+            background: linear-gradient(145deg, #590232, #011C26);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(166, 5, 93, 0.4);
+            border: 5px solid #A6055D;
+        }
+        
+        .poetry h2 {
+            color: #F288C2;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 0 0 8px #F20FA3;
+        }
+        
+        .poem {
+            background: linear-gradient(to right, #59023220, #011C2650);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #F20FA3;
+            font-style: italic;
+            line-height: 1.8;
+            color: #F288C2;
+            min-height: 200px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        /* Player de Música com a nova paleta de cores */
+        .music-player {
+            background: linear-gradient(145deg, #590232, #011C26);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(242, 15, 163, 0.3);
+            text-align: center;
+            border: 5px solid #F20FA3;
+        }
+        
+        .music-player h2 {
+            color: #F20FA3;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 8px #F20FA3;
+        }
+        
+        .playlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .song {
+            background: linear-gradient(145deg, #A6055D, #590232);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        .song:hover {
+            background: linear-gradient(145deg, #F20FA3, #A6055D);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(242, 15, 163, 0.6);
+        }
+        
+        .song.playing {
+            background: linear-gradient(145deg, #F20FA3, #A6055D);
+            box-shadow: 0 0 20px rgba(242, 15, 163, 0.8);
+        }
+        
+        /* Galeria de Fotos com a nova paleta de cores */
+        .gallery {
+            background: linear-gradient(145deg, #590232, #011C26);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(166, 5, 93, 0.4);
+            text-align: center;
+            border: 5px solid #A6055D;
+        }
+        
+        .gallery h2 {
+            color: #F288C2;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 0 0 8px #F20FA3;
+        }
+        
+        .photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo {
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s;
+            border: 3px solid #A6055D;
+            cursor: pointer;
+        }
+        
+        .photo:hover {
+            transform: scale(1.05);
+            border-color: #F20FA3;
+            box-shadow: 0 0 20px rgba(242, 15, 163, 0.6);
+        }
+        
+        .photo-placeholder {
+            background: linear-gradient(45deg, #59023240, #011C2660);
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #F288C2;
+            font-size: 3rem;
+        }
+        
+        /* Controles de áudio com a nova paleta de cores */
+        .audio-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: #A6055D;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: #F20FA3;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(242, 15, 163, 0.7);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(166, 5, 93, 0.3);
+            border-radius: 3px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #F20FA3, #A6055D);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        /* Controle de volume com a nova paleta de cores */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .stars {
-            position: absolute;
+        #volume-slider {
+            width: 100px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(166, 5, 93, 0.3);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #F20FA3;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(242, 15, 163, 0.8);
+        }
+
+        #volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #F20FA3;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 5px rgba(242, 15, 163, 0.8);
+        }
+        
+        /* Animações */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(242, 15, 163, 0.5); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating-hearts {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: transparent;
-            pointer-events: none; /* Impede que as estrelas bloqueiem os cliques */
+            pointer-events: none;
+            z-index: -1;
         }
-
-        .star {
+        
+        .heart {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: white;
-            border-radius: 50%;
+            font-size: 20px;
+            color: #F20FA3;
+            opacity: 0.6;
+            animation: float 6s ease-in infinite;
+            text-shadow: 0 0 5px #F20FA3;
         }
-
-        .text {
-            color: white;
-            font-size: 2em; /* Tamanho menor para telas pequenas */
-            text-align: center;
-            margin-bottom: 20px;
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Estilos para o vídeo com a nova paleta de cores */
+        .video-container {
             position: relative;
-            top: -50px;
-            z-index: 1; /* Garante que o texto fique acima das estrelas */
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 3px solid #A6055D;
+            background: linear-gradient(45deg, #59023240, #011C2660);
+            margin-bottom: 15px;
         }
-
-        .buttons {
-            display: flex;
-            gap: 20px;
-            z-index: 1; /* Garante que os botões fiquem acima das estrelas */
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 1em; /* Tamanho menor para telas pequenas */
-            cursor: pointer;
-            z-index: 2; /* Garante que os botões sejam clicáveis */
-            opacity: 0.7; /* Opacidade padrão para todos os botões */
-            transition: opacity 0.3s ease; /* Transição suave */
-        }
-
-        button:hover {
-            opacity: 1; /* Aumenta a opacidade ao passar o mouse */
-        }
-
-        .hidden {
+        
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: none;
         }
-
-        .final-text {
-            color: white;
-            font-size: 2em; /* Tamanho menor para telas pequenas */
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #F288C2;
+            cursor: pointer;
+        }
+        
+        .video-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #F20FA3;
+        }
+        
+        .video-placeholder p {
+            font-size: 1.2rem;
             text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1; /* Garante que o texto final fique acima das estrelas */
+            text-shadow: 1px 1px 2px #000;
         }
-
-        .secret-text-button {
-            margin-top: 20px; /* Espaço entre o texto final e o botão */
-            position: absolute;
-            top: 60%; /* Posiciona o botão abaixo do texto */
-            z-index: 1;
+        
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
-
-        .secret-text {
-            color: white;
-            font-size: 1em; /* Tamanho menor para telas pequenas */
-            text-align: center;
-            max-width: 80%; /* Aumenta a largura para telas pequenas */
-            margin: 20px auto; /* Centraliza o texto */
-            line-height: 1.5; /* Espaçamento entre as linhas */
+        
+        .video-container.playing video {
+            display: block;
         }
-
-        .hint-text {
-            color: white;
-            font-size: 0.9em; /* Tamanho menor para telas pequenas */
-            text-align: center;
-            position: absolute;
-            top: 60%; /* Posiciona o texto abaixo dos botões */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-            opacity: 0; /* Inicia invisível */
-            transition: opacity 0.7s ease; /* Animação de fade de 0.7 segundos */
-            max-width: 90%; /* Texto mais compacto */
+        
+        .video-container.playing .video-placeholder {
+            display: none;
         }
-
-        .hint-text.visible {
-            opacity: 1; /* Torna o texto visível */
-        }
-
-        .hint-text.fade-out {
-            opacity: 0; /* Torna o texto invisível */
-        }
-
-        /* Aviso inicial */
-        .volume-warning {
-            color: white;
-            font-size: 1.5em;
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0; /* Inicia invisível */
-            transition: opacity 2s ease; /* Animação de fade de 2 segundos */
-            z-index: 2; /* Garante que o aviso fique acima de tudo */
-        }
-
-        .volume-warning.visible {
-            opacity: 1; /* Torna o texto visível */
-        }
-
-        /* Media Queries para telas menores (celulares) */
+        
+        /* Melhorias de responsividade para mobile */
         @media (max-width: 768px) {
-            .text {
-                font-size: 1.5em; /* Tamanho menor para celulares */
-                top: -30px; /* Ajuste de posição */
+            body {
+                padding: 10px;
+                min-height: 100vh;
+                height: auto;
             }
-
-            button {
-                font-size: 0.9em; /* Tamanho menor para celulares */
-                padding: 8px 16px; /* Botões menores */
+            
+            .container {
+                gap: 20px;
             }
-
-            .final-text {
-                font-size: 1.5em; /* Tamanho menor para celulares */
+            
+            .love-card {
+                padding: 20px;
+                margin: 10px 0;
             }
-
-            .secret-text {
-                font-size: 0.9em; /* Tamanho menor para celulares */
-                max-width: 90%; /* Largura maior para celulares */
+            
+            .love-card h1 {
+                font-size: 1.8rem;
             }
-
-            .hint-text {
-                font-size: 0.8em; /* Tamanho menor para celulares */
-                max-width: 95%; /* Largura maior para celulares */
+            
+            .love-card p {
+                font-size: 1rem;
             }
-
-            .volume-warning {
-                font-size: 1.2em; /* Tamanho menor para celulares */
+            
+            .poetry, .gallery, .music-player {
+                padding: 20px;
+            }
+            
+            .poem {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .playlist {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .song {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            /* Layout em coluna para mobile */
+            div[style*="display: flex"] {
+                flex-direction: column;
+            }
+            
+            div[style*="min-width: 300px"], 
+            div[style*="min-width: 250px"] {
+                min-width: 100% !important;
+                flex: 1 !important;
+            }
+            
+            /* Ajustes para o vídeo em mobile */
+            .video-container {
+                height: 250px;
+            }
+            
+            .video-placeholder i {
+                font-size: 3rem;
+            }
+            
+            .video-placeholder p {
+                font-size: 1rem;
+            }
+            
+            /* Ajustes de tamanho de fonte */
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            .hearts {
+                font-size: 1.5rem;
+                letter-spacing: 5px;
             }
         }
-    </style>
+
+        @media (max-width: 480px) {
+            .love-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .video-container {
+                height: 200px;
+            }
+            
+            .audio-controls, .video-controls {
+                gap: 10px;
+            }
+            
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Prevenir zoom em inputs em iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Melhorar toque em elementos interativos */
+        .song, .control-btn {
+            -webkit-tap-highlight-color: transparent;
+            min-height: 44px; /* Tamanho mínimo para toque */
+        }
+
+        /* Prevenir comportamento de pull-to-refresh em mobile */
+        body {
+            overscroll-behavior-y: contain;
+        }
+
+   </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    <!-- Aviso inicial -->
-    <div class="volume-warning" id="volumeWarning">Aumente o volume do celular, você entenderá depois.</div>
-
-    <div class="text hidden" id="initialText">Você está brava comigo?</div>
-    <div class="buttons hidden" id="initialButtons">
-        <button id="initialYesButton">Sim</button>
-        <button id="initialNoButton">Não</button>
+    <div class="floating-hearts" id="hearts-container"></div>
+    
+    <div class="container">
+        <!-- Cartão de Namoro -->
+        <div class="love-card">
+            <div class="hearts">💖 💖 💖</div>
+            <h1>Para Lara, o Amor da Minha Vida</h1>
+            <p>Hoje, amanhã e eternamente, meu coração baterá mais forte por você.</p>
+            <p>Você é a razão do meu sorriso, a estrela que guia meus dias e a brisa que refresca minha alma.</p>
+	    <p>Somos uma dupla e, todos os dias, aprendemos um pouco mais sobre a vida um com o outro.</p>
+	    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Com amor,</p>
+	    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do seu Felipe</p>
+            <div class="hearts">💖 💖 💖</div>
+        </div>
+        
+        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 2; min-width: 300px;">
+                <!-- Área da Poesia -->
+                <div class="poetry">
+                    <h2><i class="fas fa-heart"></i> NEOQEAV <i class="fas fa-heart"></i></h2>
+                    <div class="poem">
+                        Meu bem,<br><br>
+                        Protejo-te todos os dias,<br>
+                        E isso, pra mim, é alegria.<br>
+                        Teu sorriso afoga minhas lágrimas<br>
+                        De uma felicidade outrora tardia.<br><br>
+                        Cuido sem qualquer receio,<br>
+                        Pois a ti prevejo anseio,<br>
+                        Anseio que, de antemão, rebato,<br>
+                        Pois ainda estamos no primeiro ato.<br><br>
+			As vezes, posso não entendê-la,<br>
+			Mas, por favor, não culpe o seu cantor,<br>
+			Pois desafino, minha estrela,<br>
+			E, de qualquer forma, entendo sua dor.<br><br>
+			Dois passados sombrios,<br>
+			Dois profundos rios,<br>
+			Que, no picadeiro, nos tornamos um,<br>
+			E, no mar, desaguamos incomum.<br><br> 
+			Eu te amo, Lara.
+                    </div>
+                </div>
+                
+                <!-- Vídeo Especial -->
+                <div class="gallery">
+                    <h2><i class="fas fa-video"></i> Pode Sempre Contar Comigo <i class="fas fa-heart"></i></h2>
+                    <div class="video-container">
+                        <video id="nosso-video" controls>
+                            <source src="nosso-video.mp4" type="video/mp4">
+                            Seu navegador não suporta vídeos HTML5.
+                        </video>
+                        <div class="video-placeholder">
+                            <i class="fas fa-play-circle"></i>
+                            <p>Clica aí <3</p>
+                        </div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="control-btn" onclick="playPauseVideo()">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn" onclick="restartVideo()">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button class="control-btn" onclick="toggleMuteVideo()">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Player de Música -->
+            <div style="flex: 1; min-width: 250px;">
+                <div class="music-player">
+                    <h2><i class="fas fa-music"></i> Nossa Trilha <i class="fas fa-heart"></i></h2>
+                    <div class="playlist">
+                        <button class="song" data-song="musica1.mp3">
+                            <i class="fas fa-play"></i> O Começo
+                        </button>
+                        <button class="song" data-song="musica2.mp3">
+                            <i class="fas fa-play"></i> Conhecer
+                        </button>
+                        <button class="song" data-song="musica3.mp3">
+                            <i class="fas fa-play"></i> Eu Te Amo
+                        </button>
+                        <button class="song" data-song="musica4.mp3">
+                            <i class="fas fa-play"></i> Reconciliar
+                        </button>
+                        <button class="song" data-song="musica5.mp3">
+                            <i class="fas fa-play"></i> Laço Forte
+                        </button>
+			<button class="song" data-song="musica6.mp3">
+                            <i class="fas fa-play"></i> Felicidade
+                        </button>
+                    </div>
+                    
+                    <div class="audio-controls">
+                        <button class="control-btn" id="prev-btn">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="control-btn" id="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn" id="next-btn">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="volume-control">
+                        <button id="mute-btn" class="control-btn">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                    
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    
+                    <div id="now-playing" style="margin-top: 15px; color: #ff69b4; font-style: italic; text-shadow: 0 0 3px #000;"></div>
+                </div>
+                
+                <!-- Corações extras -->
+                <div style="text-align: center; margin-top: 30px; font-size: 2rem; color: #ff69b4;">
+                    💕 💞 💓 💗 💖 💘
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="hint-text hidden" id="hintText"></div>
-    <div class="text hidden" id="text">Vamos nos resolver?</div>
-    <div class="buttons hidden" id="buttons">
-        <button id="yesButton">Sim</button>
-        <button id="noButton">Não</button>
-    </div>
-    <div class="final-text hidden" id="finalText">Eu também te amo, meu bem🌹</div>
 
-    <!-- Botão "Botão secreto" -->
-    <button class="secret-text-button hidden" id="secretTextButton">Botão secreto</button>
-
-    <!-- Texto secreto -->
-    <div class="secret-text hidden" id="secretText">
-        O som quente dos sintetizadores dos anos 80 e as guitarras rasgadas sempre me lembram o nosso romance. Aliás, o ambiente muda quando estou ao seu lado. Parece que Careless Whisper começa a tocar na minha cabeça.<br><br>
-        É difícil expressar o quanto a amo, pois nem eu mesmo saberia explicar o que meu amor por ti representa. Talvez seja sobrenatural? Digo isso porque não amo apenas você, mas também sua alma. Sinto que nossas almas já valsaram juntas em todas as nossas vidas passadas, ao som das músicas mais românticas, e esta é apenas mais uma delas. Quero poder continuar valsando com você em nossas vidas futuras.<br><br>
-        Parece loucura, não é? Mas você sabe como sou apaixonado pela arte de escrever coisas que nem eu mesmo entenderia. Talvez você entenda. Na verdade, você sempre entende minhas cartas, de um jeito ou de outro.<br><br>
-        Sei que isso não vai resolver tudo, então tenha seu tempo para se acalmar e não deixe que essa briga estrague o que temos.<br><br>
-        Eu devo dizer que você enfeitiçou meu corpo e alma, e eu a amo... eu a amo... eu a amo. Anseio que não fiquemos separados a partir de agora.<br><br>
-        NEOQEAV.
-    </div>
-
-    <!-- Elemento de áudio para tocar a música -->
-    <audio id="backgroundMusic" src="data_tone.mp3" loop></audio>
+    <audio id="audio-player"></audio>
 
     <script>
-        // Função para criar estrelas
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 200;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                starsContainer.appendChild(star);
+        // Elementos do DOM
+        const audioPlayer = document.getElementById('audio-player');
+        const playButtons = document.querySelectorAll('.song');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progress = document.getElementById('progress');
+        const nowPlaying = document.getElementById('now-playing');
+        
+        // Variáveis de controle
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let volumeLevel = 0.7; // Volume padrão (70%)
+        let isMuted = false;
+        
+        // Lista de músicas locais - ADICIONE AQUI OS NOMES DOS SEUS ARQUIVOS DE MÚSICA
+        const songs = [
+            { title: "O Começo", src: "musica1.mp3" },
+            { title: "Conhecer", src: "musica2.mp3" },
+            { title: "Eu Te Amo", src: "musica3.mp3" },
+            { title: "Reconciliar", src: "musica4.mp3" },
+            { title: "Laço Forte", src: "musica5.mp3" },
+	    { title: "Felicidade", src: "musica6.mp3" }
+        ];
+        
+        // Função para tocar música
+        function playSong(index) {
+            // Atualiza o índice atual
+            currentSongIndex = index;
+            
+            // Define a fonte do áudio e inicia a reprodução
+            audioPlayer.src = songs[index].src;
+            audioPlayer.volume = volumeLevel; // Define o volume
+            audioPlayer.play();
+            
+            // Atualiza a interface
+            updateNowPlaying();
+            updateActiveButton();
+            
+            // Atualiza o botão de play/pause
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            isPlaying = true;
+        }
+        
+        // Função para pausar a música
+        function pauseSong() {
+            audioPlayer.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            isPlaying = false;
+        }
+        
+        // Função para tocar ou pausar
+        function togglePlayPause() {
+            if (isPlaying) {
+                pauseSong();
+            } else {
+                if (audioPlayer.src) {
+                    audioPlayer.play();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    isPlaying = true;
+                } else {
+                    // Se não há música selecionada, toca a primeira
+                    playSong(0);
+                }
+            }
+        }
+        
+        // Função para tocar a próxima música
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            playSong(currentSongIndex);
+        }
+        
+        // Função para tocar a música anterior
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            playSong(currentSongIndex);
+        }
+        
+        // Função para configurar o volume
+        function setVolume(level) {
+            volumeLevel = level;
+            audioPlayer.volume = level;
+            
+            // Atualiza o ícone do mute
+            if (level === 0) {
+                document.getElementById('mute-btn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+                isMuted = true;
+            } else {
+                document.getElementById('mute-btn').innerHTML = '<i class="fas fa-volume-up"></i>';
+                isMuted = false;
             }
         }
 
-        // Função para mover o botão "Não"
-        function moveNoButton() {
-            const noButton = document.getElementById('noButton');
-            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
-            noButton.style.position = 'absolute';
-            noButton.style.left = `${x}px`;
-            noButton.style.top = `${y}px`;
+        // Função para alternar o mudo
+        function toggleMute() {
+            if (isMuted) {
+                setVolume(volumeLevel);
+            } else {
+                setVolume(0);
+            }
         }
-
-        // Função para reiniciar a posição do botão "Não"
-        function resetNoButton() {
-            const noButton = document.getElementById('noButton');
-            noButton.style.position = 'static'; /* Volta à posição inicial */
+        
+        // Atualiza a informação da música atual
+        function updateNowPlaying() {
+            nowPlaying.innerHTML = `<i class="fas fa-music"></i> Tocando: ${songs[currentSongIndex].title}`;
         }
-
-        // Função para mudar o texto e os botões
-        function changeText() {
-            const text = document.getElementById('text');
-            const buttons = document.getElementById('buttons');
-            const finalText = document.getElementById('finalText');
-
-            text.innerText = "Você me ama?";
-            buttons.classList.remove('hidden');
-            finalText.classList.add('hidden');
-            resetNoButton(); /* Reinicia o botão "Não" */
+        
+        // Atualiza o botão ativo
+        function updateActiveButton() {
+            // Remove a classe 'playing' de todos os botões
+            playButtons.forEach(button => {
+                button.classList.remove('playing');
+            });
+            
+            // Adiciona a classe 'playing' ao botão atual
+            playButtons[currentSongIndex].classList.add('playing');
         }
-
-        // Função para mostrar o texto final, tocar a música e exibir o botão "Botão secreto"
-        function showFinalText() {
-            const text = document.getElementById('text');
-            const buttons = document.getElementById('buttons');
-            const finalText = document.getElementById('finalText');
-            const secretTextButton = document.getElementById('secretTextButton');
-            const music = document.getElementById('backgroundMusic');
-
-            text.classList.add('hidden'); /* Esconde o texto "Você me ama?" */
-            buttons.classList.add('hidden'); /* Esconde os botões */
-            finalText.classList.remove('hidden'); /* Mostra o texto final */
-            secretTextButton.classList.remove('hidden'); /* Mostra o botão "Botão secreto" */
-
-            // Toca a música
-            music.play();
+        
+        // Atualiza a barra de progresso
+        function updateProgress(e) {
+            const { duration, currentTime } = e.srcElement;
+            const progressPercent = (currentTime / duration) * 100;
+            progress.style.width = `${progressPercent}%`;
         }
-
-        // Função para mostrar o texto secreto e esconder o texto e o botão
-        function showSecretText() {
-            const finalText = document.getElementById('finalText');
-            const secretTextButton = document.getElementById('secretTextButton');
-            const secretText = document.getElementById('secretText');
-
-            finalText.classList.add('hidden'); /* Esconde o texto "Eu também te amo, meu bem🌹" */
-            secretTextButton.classList.add('hidden'); /* Esconde o botão "Botão secreto" */
-            secretText.classList.remove('hidden'); /* Mostra o texto secreto */
+        
+        // Define a posição da música ao clicar na barra de progresso
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audioPlayer.duration;
+            
+            audioPlayer.currentTime = (clickX / width) * duration;
         }
+        
+        // Event Listeners
+        playButtons.forEach((button, index) => {
+            button.addEventListener('click', () => playSong(index));
+        });
+        
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', prevSong);
+        nextBtn.addEventListener('click', nextSong);
+        
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+        audioPlayer.addEventListener('ended', nextSong);
+        
+        progressContainer.addEventListener('click', setProgress);
+        
+        // Event listeners para controle de volume
+        document.getElementById('volume-slider').addEventListener('input', (e) => {
+            setVolume(parseFloat(e.target.value));
+        });
 
-        // Função para avançar para o Estágio 1
-        function goToStage1() {
-            const initialText = document.getElementById('initialText');
-            const initialButtons = document.getElementById('initialButtons');
-            const hintText = document.getElementById('hintText');
-            const text = document.getElementById('text');
-            const buttons = document.getElementById('buttons');
-
-            initialText.classList.add('hidden');
-            initialButtons.classList.add('hidden');
-            hintText.classList.add('hidden');
-            text.classList.remove('hidden');
-            buttons.classList.remove('hidden');
+        document.getElementById('mute-btn').addEventListener('click', toggleMute);
+        
+        // Criar corações flutuantes
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💞', '💘', '💝'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heartsContainer.appendChild(heart);
+            }
         }
-
-        // Função para exibir o texto "Af" e "Tá bom" como pulsos
-        function showAfTaBom() {
-            const hintText = document.getElementById('hintText');
-
-            // Exibe "Af" com fade-in de 0.7 segundos
-            hintText.innerText = "Af";
-            hintText.classList.remove('hidden');
-            setTimeout(() => hintText.classList.add('visible'), 10); // Fade-in de 0.7 segundos
-
-            // Esconde "Af" com fade-out de 0.7 segundos
-            setTimeout(() => {
-                hintText.classList.remove('visible'); // Fade-out de 0.7 segundos
-                setTimeout(() => {
-                    // Exibe "Tá bom" com fade-in de 0.7 segundos
-                    hintText.innerText = "Tá bom";
-                    hintText.classList.add('visible'); // Fade-in de 0.7 segundos
-
-                    // Esconde "Tá bom" com fade-out de 0.7 segundos
-                    setTimeout(() => {
-                        hintText.classList.remove('visible'); // Fade-out de 0.7 segundos
-                        setTimeout(goToStage1, 700); // Avança para o Estágio 1 após o fade-out
-                    }, 700); // Tempo para o fade-out de "Tá bom"
-                }, 700); // Tempo entre "Af" e "Tá bom"
-            }, 700); // Tempo para o fade-out de "Af"
+        
+        // Inicializar corações flutuantes e volume
+        createHearts();
+        setVolume(0.7); // Define volume inicial para 70%
+        
+        // Funções para controle do vídeo
+        function playPauseVideo() {
+            const video = document.getElementById('nosso-video');
+            const container = document.querySelector('.video-container');
+            
+            if (video.paused) {
+                video.play();
+                container.classList.add('playing');
+                document.querySelector('.video-controls .fa-play').className = 'fas fa-pause';
+            } else {
+                video.pause();
+                document.querySelector('.video-controls .fa-pause').className = 'fas fa-play';
+            }
         }
-
-        // Função para mudar o texto do botão "Sim" no estágio inicial
-        function changeInitialYesButtonText() {
-            const initialYesButton = document.getElementById('initialYesButton');
-            const hintText = document.getElementById('hintText');
-            let clickCount = 0;
-
-            initialYesButton.addEventListener('click', function() {
-                if (clickCount === 0) {
-                    initialYesButton.innerText = "Certeza absoluta";
-                    hintText.innerText = "Ouvi dizer que o botão do lado é melhor, ele dá até chocolate amargo pra quem clica. Tem certeza que não quer clicar?";
-                    hintText.classList.remove('hidden');
-                    setTimeout(() => hintText.classList.add('visible'), 10); // Inicia a animação de fade
-                    clickCount++;
-                } else if (clickCount === 1) {
-                    hintText.classList.remove('visible'); // Esconde o texto anterior
-                    setTimeout(() => {
-                        hintText.classList.add('hidden'); // Remove o texto anterior
-                        showAfTaBom(); // Exibe "Af" e "Tá bom" como pulsos
-                    }, 700); // Espera o fade-out do texto anterior
-                    clickCount++;
+        
+        function restartVideo() {
+            const video = document.getElementById('nosso-video');
+            video.currentTime = 0;
+            video.play();
+            document.querySelector('.video-container').classList.add('playing');
+            document.querySelector('.video-controls .fa-play').className = 'fas fa-pause';
+        }
+        
+        function toggleMuteVideo() {
+            const video = document.getElementById('nosso-video');
+            const muteBtn = document.querySelector('.video-controls .fa-volume-up, .video-controls .fa-volume-mute');
+            
+            video.muted = !video.muted;
+            muteBtn.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+        }
+        
+        // Carregar vídeo quando clicar no placeholder
+        document.querySelector('.video-placeholder').addEventListener('click', function() {
+            const video = document.getElementById('nosso-video');
+            const container = document.querySelector('.video-container');
+            
+            video.load();
+            video.play();
+            container.classList.add('playing');
+            document.querySelector('.video-controls .fa-play').className = 'fas fa-pause';
+        });
+        
+        // Detectar si é dispositivo móvel
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Ajustes específicos para mobile
+        if (isMobile) {
+            // Otimizações para performance em mobile
+            document.addEventListener('DOMContentLoaded', function() {
+                // Reduzir número de corações flutuantes em mobile
+                const heartsContainer = document.getElementById('hearts-container');
+                if (heartsContainer) {
+                    heartsContainer.innerHTML = '';
+                    for (let i = 0; i < 15; i++) { // Menos corações para melhor performance
+                        const heart = document.createElement('div');
+                        heart.className = 'heart';
+                        heart.innerHTML = '❤️';
+                        heart.style.left = Math.random() * 100 + 'vw';
+                        heart.style.animationDuration = (Math.random() * 8 + 4) + 's';
+                        heart.style.animationDelay = Math.random() * 3 + 's';
+                        heartsContainer.appendChild(heart);
+                    }
+                }
+                
+                // Prevenir zoom duplo
+                document.addEventListener('touchstart', function(e) {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // Melhorar comportamento de vídeo em iOS
+                const video = document.getElementById('nosso-video');
+                if (video) {
+                    video.setAttribute('playsinline', '');
+                    video.setAttribute('webkit-playsinline', '');
                 }
             });
         }
-
-        // Função para exibir o aviso inicial com fade-in e fade-out
-        function showVolumeWarning() {
-            const volumeWarning = document.getElementById('volumeWarning');
-
-            // Fade-in de 2 segundos
-            setTimeout(() => {
-                volumeWarning.style.opacity = 1; // Torna o texto visível
-            }, 10); // Inicia o fade-in
-
-            // Mantém o texto visível por 2 segundos
-            setTimeout(() => {
-                // Fade-out de 2 segundos
-                volumeWarning.style.opacity = 0; // Torna o texto invisível
-                setTimeout(() => {
-                    volumeWarning.classList.add('hidden'); // Remove o aviso
-                    startContent(); // Inicia o conteúdo principal
-                }, 2000); // Tempo para o fade-out
-            }, 4000); // 2 segundos de fade-in + 2 segundos de exibição
+        
+    // Função para criar corações flutuantes melhorada
+    function createHearts() {
+        const heartsContainer = document.getElementById('hearts-container');
+        const hearts = ['❤️', '💕', '💖', '💗', '💓', '💞', '💘', '💝'];
+        
+        // Limpar corações existentes
+        heartsContainer.innerHTML = '';
+        
+        for (let i = 0; i < 25; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            // Distribuição mais uniforme pela tela
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 6 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            
+            heartsContainer.appendChild(heart);
         }
-
-        // Função para iniciar o conteúdo principal
-        function startContent() {
-            const initialText = document.getElementById('initialText');
-            const initialButtons = document.getElementById('initialButtons');
-            initialText.classList.remove('hidden');
-            initialButtons.classList.remove('hidden');
-        }
-
-        // Event listeners
-        document.getElementById('noButton').addEventListener('click', moveNoButton);
-        document.getElementById('yesButton').addEventListener('click', function() {
-            const text = document.getElementById('text').innerText;
-            if (text === "Vamos nos resolver?") {
-                changeText();
-            } else if (text === "Você me ama?") {
-                showFinalText();
-            }
-        });
-
-        // Event listener para o botão "Botão secreto"
-        document.getElementById('secretTextButton').addEventListener('click', showSecretText);
-
-        // Event listener para o botão "Não" no estágio inicial
-        document.getElementById('initialNoButton').addEventListener('click', goToStage1);
-
-        // Inicialização
-        createStars();
-
-        // Mostra o aviso inicial ao carregar a página
-        showVolumeWarning();
-
-        // Configura o comportamento do botão "Sim" no estágio inicial
-        changeInitialYesButtonText();
-    </script>
+    }    
+</script>
 </body>
 </html>
